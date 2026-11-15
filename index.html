@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <title>星月夜 · The Starry Night</title>
+  <meta name="theme-color" content="#0b0a09" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="wall">
+    <div id="frame">
+      <div id="canvas-wrap">
+        <canvas id="game" aria-label="星月夜游戏画布"></canvas>
+
+        <div id="hud">
+          <div id="hud-top">
+            <div class="meter">
+              <span class="meter-label">光</span>
+              <div class="meter-bar">
+                <div class="meter-fill" id="energy-fill"></div>
+                <div class="need-mark" id="need-mark"></div>
+              </div>
+            </div>
+            <div id="star-pips" aria-label="已点亮的星星"></div>
+          </div>
+
+          <div id="quote"><p class="q-text"></p><p class="q-src">— 文森特·梵高，书信</p></div>
+          <div id="hint"></div>
+
+          <div id="palette" class="hidden">
+            <button data-c="#f5c518" style="--c:#f5c518" title="铬黄 (1)"></button>
+            <button data-c="#fff07a" style="--c:#fff07a" title="柠檬黄 (2)"></button>
+            <button data-c="#f4f0e2" style="--c:#f4f0e2" title="铅白 (3)"></button>
+            <button data-c="#2f63c4" style="--c:#2f63c4" title="钴蓝 (4)"></button>
+            <button data-c="#2c2f8c" style="--c:#2c2f8c" title="群青 (5)"></button>
+            <button data-c="#3aa38a" style="--c:#3aa38a" title="翡翠绿 (6)"></button>
+            <button data-c="#d9482b" style="--c:#d9482b" title="朱红 (7)"></button>
+          </div>
+
+          <div id="controls">
+            <button id="btn-sound" title="声音 (M)" aria-label="声音">
+              <svg viewBox="0 0 24 24" class="ico-on"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none"/></svg>
+              <svg viewBox="0 0 24 24" class="ico-off"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6" fill="none"/></svg>
+            </button>
+            <button id="btn-save" title="保存这幅画 (C)" aria-label="保存这幅画">
+              <svg viewBox="0 0 24 24"><path d="M4 7h3l2-2.5h6L17 7h3v12H4z" fill="none"/><circle cx="12" cy="13" r="3.6" fill="none"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <section id="screen-loading" class="screen">
+          <p class="loading">调色中<span>.</span><span>.</span><span>.</span></p>
+        </section>
+
+        <section id="screen-start" class="screen hidden">
+          <h1>星月夜</h1>
+          <p class="sub">THE STARRY NIGHT · 1889</p>
+          <p class="story">
+            1889 年 6 月，圣雷米。黎明前，文森特从病房的窗口望出去——<br />
+            今夜，风把星光吹散成了一粒粒颜料。<br />
+            你是从他笔尖坠落的一滴<em>铬黄</em>。
+          </p>
+          <p class="goal">乘着夜风，收集金色的光点，点亮 <b>11</b> 颗星星，把这幅画还给他。</p>
+          <button id="btn-start" class="primary">入画</button>
+          <p class="keys">鼠标 / 手指 引导 · 点击 或 空格 冲刺 · 月亮与星光是避风港 · M 静音 · P 暂停</p>
+          <p class="epigraph">“看着星星，总让我做梦。”</p>
+          <p class="rotate-note">横屏体验更佳</p>
+        </section>
+
+        <section id="screen-pause" class="screen hidden">
+          <h2>暂停</h2>
+          <p class="keys">点击或按 P 继续</p>
+        </section>
+
+        <section id="screen-end" class="screen hidden">
+          <h2>星月夜，完成了</h2>
+          <p class="end-quote">“我梦见了画，然后画下了我的梦。”</p>
+          <p class="stats">用时 <b id="st-time">0:00</b> · 收集光点 <b id="st-motes">0</b> · 熄灭 <b id="st-fades">0</b> 次</p>
+          <div class="btns">
+            <button id="btn-free" class="primary small">在夜空中自由作画</button>
+            <button id="btn-again" class="ghost">再来一次</button>
+            <button id="btn-save2" class="ghost">保存这幅画</button>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div id="plaque">
+      <span class="pl-artist">文森特·梵高 &nbsp;Vincent van Gogh&nbsp; 1853–1890</span>
+      <span class="pl-title">《星月夜》De sterrennacht，1889 · 布面油画 · 可以飞进去的版本</span>
+    </div>
+  </main>
+
+  <script src="js/util.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/painter.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

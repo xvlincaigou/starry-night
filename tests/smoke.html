@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Starry Night smoke test</title>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <pre id="out">running</pre>
+  <script src="../js/util.js"></script>
+  <script src="../js/scene.js"></script>
+  <script src="../js/painter.js"></script>
+  <script src="../js/audio.js"></script>
+  <script src="../js/game.js"></script>
+  <script>
+    // Plays a whole game with a greedy bot and reports the outcome on <body data-result>.
+    (() => {
+      const out = document.getElementById('out');
+      const report = (ok, info) => {
+        document.body.dataset.result = ok ? 'pass' : 'fail';
+        out.textContent = (ok ? 'PASS ' : 'FAIL ') + JSON.stringify(info);
+      };
+      try {
+        Game.init(document.getElementById('game'), 1);
+        let ended = false;
+        Game.hooks.end = () => {
+          ended = true;
+        };
+        Game.start();
+        const S = Game.S;
+        const nearest = (list, p) =>
+          list.reduce((a, b) => (Math.hypot(a.x - p.x, a.y - p.y) < Math.hypot(b.x - p.x, b.y - p.y) ? a : b));
+        const dt = 1 / 60;
+        let step = 0;
+        for (; step < 300 * 60 && !ended; step++) {
+          const p = S.player;
+          if (S.state === 'playing' && !p.dead) {
+            const dim = Scene.stars.filter((s) => !s.lit);
+            const target = p.energy > 38 && dim.length ? nearest(dim, p) : S.motes.length ? nearest(S.motes, p) : Scene.moon;
+            Input.pointerActive = true;
+            Input.px = target.x;
+            Input.py = target.y;
+          }
+          Game.update(dt);
+          if (step % 30 === 0) Game.render();
+        }
+        report(ended && S.litCount === Scene.stars.length, {
+          seconds: Math.round(step * dt),
+          lit: S.litCount,
+          fades: S.stats.fades,
+          motes: S.stats.motes,
+          state: S.state,
+        });
+      } catch (e) {
+        report(false, { error: String((e && e.stack) || e) });
+      }
+    })();
+  </script>
+</body>
+</html>
